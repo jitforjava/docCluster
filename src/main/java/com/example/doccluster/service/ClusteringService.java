@@ -27,17 +27,17 @@ public class ClusteringService {
     }
 
     public ClusterResponse cluster(String queryText) throws SolrServerException, IOException {
-        SolrQuery q = new SolrQuery(queryText);
-        q.setRows(200);
-        q.set("clustering", true);
-        q.set("clustering.engine", "lingo");
-        q.set("clustering.results", true);
-        q.set("clustering.collection", false);
-        q.set("fl", "id,file_name,content");
+        SolrQuery query = new SolrQuery(queryText);
+        query.setRows(200);
+        query.set("clustering", true);
+        query.set("clustering.engine", "lingo");
+        query.set("clustering.results", true);
+        query.set("clustering.collection", false);
+        query.set("fl", "id,file_name,content");
 
-        QueryResponse response = solrClient.query(solrProperties.collection(), q);
-        NamedList<Object> dataFromSolr = response.getResponse();
-        Object clustersObj = dataFromSolr.get("clusters");
+        QueryResponse response = solrClient.query(solrProperties.collection(), query);
+        NamedList<Object> clusteringSection = response.getResponse();
+        Object clustersObj = clusteringSection.get("clusters");
 
         List<ClusterResult> clusters = clustersObj instanceof List<?> rawClusters
                 ? parseClusters(rawClusters)
@@ -52,14 +52,14 @@ public class ClusteringService {
 
     @SuppressWarnings("unchecked")
     private List<ClusterResult> parseClusters(List<?> rawClusters) {
-        List<ClusterResult> out = new ArrayList<>();
-        for (Object one : rawClusters) {
-            if (!(one instanceof NamedList<?> namedCluster)) {
+        List<ClusterResult> parsed = new ArrayList<>();
+        for (Object raw : rawClusters) {
+            if (!(raw instanceof NamedList<?> namedCluster)) {
                 continue;
             }
 
             List<String> labels = getStringList(namedCluster.get("labels"));
-            List<String> docIds = getStringList(namedCluster.get("docs"));
+            List<String> docs = getStringList(namedCluster.get("docs"));
             Integer size = namedCluster.get("size") instanceof Number number ? number.intValue() : null;
 
             List<ClusterResult> subClusters = Collections.emptyList();
@@ -68,9 +68,9 @@ public class ClusteringService {
                 subClusters = parseClusters(nestedRaw);
             }
 
-            out.add(new ClusterResult(labels, docIds, size, subClusters));
+            parsed.add(new ClusterResult(labels, docs, size, subClusters));
         }
-        return out;
+        return parsed;
     }
 
     @SuppressWarnings("unchecked")
@@ -79,10 +79,10 @@ public class ClusteringService {
             return Collections.emptyList();
         }
 
-        List<String> ans = new ArrayList<>();
+        List<String> values = new ArrayList<>();
         for (Object item : listValue) {
-            ans.add(String.valueOf(item));
+            values.add(String.valueOf(item));
         }
-        return ans;
+        return values;
     }
 }

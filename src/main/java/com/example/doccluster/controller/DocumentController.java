@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,10 +33,10 @@ public class DocumentController {
     public ResponseEntity<Map<String, Object>> indexFolder(@Valid @RequestBody IndexFolderRequest request)
             throws IOException, SolrServerException {
         int indexedCount = indexService.indexFolder(request.folderPath());
-        Map<String, Object> response = new HashMap<>();
-        response.put("folderPath", request.folderPath());
-        response.put("indexedDocumentCount", indexedCount);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of(
+                "folderPath", request.folderPath(),
+                "indexedDocumentCount", indexedCount
+        ));
     }
 
     @GetMapping("/clusters")

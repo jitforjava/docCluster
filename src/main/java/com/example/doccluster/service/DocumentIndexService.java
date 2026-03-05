@@ -34,37 +34,30 @@ public class DocumentIndexService {
             throw new IllegalArgumentException("Path must exist and be a folder: " + folderPath);
         }
 
-        List<SolrInputDocument> docsToSend = new ArrayList<>();
-
-        // keeping it simple, just walk everything and check one by one
-        try (Stream<Path> stream = Files.walk(root)) {
-            List<Path> allPaths = stream.toList();
-            for (Path currentPath : allPaths) {
-                if (Files.isRegularFile(currentPath) && isSupported(currentPath)) {
-                    SolrInputDocument d = buildDocument(currentPath);
-                    docsToSend.add(d);
-                }
-            }
+        List<SolrInputDocument> documents = new ArrayList<>();
+        try (Stream<Path> paths = Files.walk(root)) {
+            paths.filter(Files::isRegularFile)
+                    .filter(this::isSupported)
+                    .forEach(path -> documents.add(buildDocument(path)));
         }
 
-        if (docsToSend.isEmpty()) {
+        if (documents.isEmpty()) {
             return 0;
         }
 
-        solrClient.add(solrProperties.collection(), docsToSend);
+        solrClient.add(solrProperties.collection(), documents);
         solrClient.commit(solrProperties.collection());
-        return docsToSend.size();
+        return documents.size();
     }
 
     private SolrInputDocument buildDocument(Path path) {
         SolrInputDocument doc = new SolrInputDocument();
-        String id = System.currentTimeMillis() + "-" + UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         doc.addField("id", id);
         doc.addField("file_name", path.getFileName().toString());
         doc.addField("file_path", path.toAbsolutePath().toString());
         try {
-            String rawText = tika.parseToString(path);
-            doc.addField("content", rawText);
+            doc.addField("content", tika.parseToString(path));
         } catch (Exception ex) {
             doc.addField("content", "");
         }
