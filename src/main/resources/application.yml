@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+app:
+  solr:
+    base-url: http://localhost:8983/solr
+    collection: documents
