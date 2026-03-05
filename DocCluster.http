@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:8080
+@folderPath = D:/docs
+@query = *:*
+
+### Index documents from a folder
+POST {{baseUrl}}/api/documents/index-folder
+Content-Type: application/json
+
+{
+  "folderPath": "{{folderPath}}"
+}
+
+### Get clusters
+GET {{baseUrl}}/api/documents/clusters?q={{query}}

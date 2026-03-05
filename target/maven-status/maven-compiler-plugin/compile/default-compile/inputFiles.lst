@@ -1,0 +1,10 @@
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\config\AppConfig.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\config\SolrProperties.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\controller\ApiExceptionHandler.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\controller\DocumentController.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\DocClusterApplication.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\ClusterResponse.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\ClusterResult.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\IndexFolderRequest.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\ClusteringService.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\DocumentIndexService.java
