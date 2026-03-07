@@ -1,10 +1,16 @@
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\config\AppConfig.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\config\SolrProperties.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\config\WebCorsConfig.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\controller\ApiExceptionHandler.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\controller\DocumentController.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\DocClusterApplication.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\ClusterMetrics.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\ClusterResponse.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\ClusterResult.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\FolderFileInfo.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\FolderFilesResponse.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\FolderPathRequest.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\IndexedDocumentInfo.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\IndexFolderRequest.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\ClusteringService.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\DocumentIndexService.java

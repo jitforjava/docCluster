@@ -1,0 +1,145 @@
+<main class="page">
+  <section class="hero panel">
+    <h1>Document Cluster Dashboard</h1>
+    <p>Browse supported files, index to Solr, and visualize cluster outputs from backend endpoints.</p>
+  </section>
+
+  <section class="panel controls">
+    <label>
+      Folder Path
+      <input type="text" [(ngModel)]="folderPath" placeholder="/mnt/d/path/to/docs" />
+    </label>
+
+    <div class="actions">
+      <button (click)="loadFiles()" [disabled]="loadingFiles">
+        {{ loadingFiles ? 'Loading...' : 'List Files' }}
+      </button>
+      <button class="secondary" (click)="runIndexing()" [disabled]="indexing">
+        {{ indexing ? 'Indexing...' : 'Run Indexing' }}
+      </button>
+    </div>
+
+    <label>
+      Cluster Query
+      <input type="text" [(ngModel)]="queryText" placeholder="*:*" />
+    </label>
+
+    <button class="accent" (click)="loadClusters()" [disabled]="loadingClusters">
+      {{ loadingClusters ? 'Loading clusters...' : 'Run Clustering' }}
+    </button>
+
+    <p class="error" *ngIf="errorText">{{ errorText }}</p>
+  </section>
+
+  <section class="cards">
+    <article class="panel card">
+      <h2>Supported Files</h2>
+      <strong>{{ filesResponse?.supportedFileCount ?? 0 }}</strong>
+    </article>
+    <article class="panel card">
+      <h2>Indexed Docs</h2>
+      <strong>{{ indexedDocumentCount ?? 0 }}</strong>
+    </article>
+    <article class="panel card" *ngIf="clusterResponse as c">
+      <h2>Total Clusters</h2>
+      <strong>{{ c.metrics.totalClusters }}</strong>
+    </article>
+    <article class="panel card" *ngIf="clusterResponse as c">
+      <h2>Leaf Clusters</h2>
+      <strong>{{ c.metrics.leafClusters }}</strong>
+    </article>
+    <article class="panel card" *ngIf="clusterResponse as c">
+      <h2>Largest Cluster</h2>
+      <strong>{{ c.metrics.largestClusterSize }}</strong>
+    </article>
+    <article class="panel card" *ngIf="clusterResponse as c">
+      <h2>Total Docs Found</h2>
+      <strong>{{ c.totalDocuments }}</strong>
+    </article>
+    <article class="panel card" *ngIf="clusterResponse as c">
+      <h2>Docs In Response</h2>
+      <strong>{{ c.documents.length }}</strong>
+    </article>
+  </section>
+
+  <section class="grid">
+    <article class="panel files">
+      <h3>Files In Folder</h3>
+      <p *ngIf="!files.length">No files loaded yet.</p>
+      <table *ngIf="files.length">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size (KB)</th>
+            <th>Path</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files; trackBy: trackByPath">
+            <td>{{ file.fileName }}</td>
+            <td>{{ (file.sizeBytes / 1024).toFixed(1) }}</td>
+            <td class="path">{{ file.filePath }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="panel clusters">
+      <h3>Cluster Size Visualization</h3>
+      <p *ngIf="!clusterBars.length">Run clustering to view cluster distribution.</p>
+      <div class="bar-list" *ngIf="clusterBars.length">
+        <div class="bar-item" *ngFor="let cluster of clusterBars">
+          <div class="bar-label">{{ cluster.label }}</div>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width]="barWidth(cluster.size)"></div>
+          </div>
+          <div class="bar-size">{{ cluster.size }}</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel">
+    <h3>Indexed Document Names (Matched Query)</h3>
+    <p *ngIf="!matchedDocuments.length">Run clustering to list indexed document names/labels.</p>
+    <table *ngIf="matchedDocuments.length">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Doc ID</th>
+          <th>Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of matchedDocuments">
+          <td>{{ doc.fileName || '(no file name)' }}</td>
+          <td>{{ doc.id }}</td>
+          <td class="path">{{ doc.filePath }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel endpoint-log">
+    <h3>Endpoint Activity</h3>
+    <p *ngIf="!endpointHits.length">No API calls yet.</p>
+    <table *ngIf="endpointHits.length">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Endpoint</th>
+          <th>Status</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hit of endpointHits">
+          <td>{{ hit.time }}</td>
+          <td>{{ hit.endpoint }}</td>
+          <td [class.ok]="hit.status === 'OK'" [class.error-status]="hit.status === 'ERROR'">{{ hit.status }}</td>
+          <td>{{ hit.message }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>

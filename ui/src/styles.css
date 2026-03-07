@@ -1,0 +1,21 @@
+:root {
+  --bg: #f4efe6;
+  --panel: #fffaf1;
+  --ink: #17212b;
+  --accent: #0f766e;
+  --accent-2: #c2410c;
+  --muted: #5f6b78;
+  --line: #d7cbb5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 10% 10%, #fff7e5, var(--bg) 45%), linear-gradient(135deg, #f8f2e8, #efe5d2);
+  color: var(--ink);
+}

@@ -5,6 +5,8 @@ import java.util.List;
 public record ClusterResponse(
         String query,
         long totalDocuments,
-        List<ClusterResult> clusters
+        ClusterMetrics metrics,
+        List<ClusterResult> clusters,
+        List<IndexedDocumentInfo> documents
 ) {
 }

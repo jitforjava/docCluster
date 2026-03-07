@@ -84,6 +84,14 @@ mvn spring-boot:run
 
 ## 5) API usage
 
+### List supported files from a folder
+
+```bash
+curl -X POST http://localhost:8080/api/documents/folder-files \
+  -H 'Content-Type: application/json' \
+  -d '{"folderPath":"/absolute/path/to/your/folder"}'
+```
+
 ### Index a folder
 
 ```bash
@@ -108,3 +116,27 @@ curl "http://localhost:8080/api/documents/clusters?q=machine learning"
 - Only `.pdf`, `.doc`, and `.docx` files are indexed.
 - If text extraction fails for a file, the file is still indexed with empty content.
 - Large folders can take time; indexing is synchronous in this starter implementation.
+
+## Angular UI (separate folder)
+
+The project now includes a separate Angular UI under `ui/`:
+- folder file listing (`/api/documents/folder-files`)
+- indexing trigger (`/api/documents/index-folder`)
+- cluster summary + visualization (`/api/documents/clusters`)
+- endpoint activity table for quick API diagnostics
+
+Backend CORS is configured for `http://localhost:4200`.
+
+Run UI:
+
+```bash
+cd ui
+npm install
+npm start
+```
+
+UI URL:
+
+```text
+http://localhost:4200
+```

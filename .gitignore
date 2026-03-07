@@ -1,2 +1,5 @@
 target/classes/*
 target/test-classes/*
+target/
+ui/node_modules/
+ui/dist/
