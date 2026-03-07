@@ -5,6 +5,7 @@ import com.example.doccluster.dto.FolderFileInfo;
 import com.example.doccluster.dto.FolderFilesResponse;
 import com.example.doccluster.dto.FolderPathRequest;
 import com.example.doccluster.dto.IndexFolderRequest;
+import com.example.doccluster.dto.SearchResponse;
 import com.example.doccluster.service.ClusteringService;
 import com.example.doccluster.service.DocumentIndexService;
 import jakarta.validation.Valid;
@@ -60,5 +61,13 @@ public class DocumentController {
     public ResponseEntity<ClusterResponse> getClusters(@RequestParam(defaultValue = "*:*") String q)
             throws SolrServerException, IOException {
         return ResponseEntity.ok(clusteringService.cluster(q));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<SearchResponse> searchDocuments(
+            @RequestParam(defaultValue = "*:*") String q,
+            @RequestParam(defaultValue = "25") int rows
+    ) throws SolrServerException, IOException {
+        return ResponseEntity.ok(clusteringService.search(q, rows));
     }
 }

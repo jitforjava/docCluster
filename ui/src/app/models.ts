@@ -45,3 +45,27 @@ export interface IndexedDocumentInfo {
   fileName: string;
   filePath: string;
 }
+
+export interface SearchDocumentResult {
+  id: string;
+  fileName: string;
+  filePath: string;
+  score: number;
+  clusterLabels: string[];
+  matchLocations: SearchMatchLocation[];
+}
+
+export interface SearchResponse {
+  query: string;
+  tokens: string[];
+  totalDocumentsFound: number;
+  returnedDocuments: number;
+  documents: SearchDocumentResult[];
+  backendStages: string[];
+}
+
+export interface SearchMatchLocation {
+  field: string;
+  snippet: string;
+  tokenPosition: number;
+}

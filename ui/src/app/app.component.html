@@ -28,6 +28,21 @@
       {{ loadingClusters ? 'Loading clusters...' : 'Run Clustering' }}
     </button>
 
+    <label>
+      Search Query
+      <input type="text" [(ngModel)]="searchText" placeholder="neural networks project report" />
+    </label>
+
+    <label>
+      Max Results
+      <input type="number" [(ngModel)]="searchRows" min="1" max="200" />
+    </label>
+
+    <button class="accent" (click)="runSearch()" [disabled]="searching">
+      {{ searching ? 'Searching documents...' : 'Search Documents' }}
+    </button>
+    <p *ngIf="searching || searchStatusMessage">{{ searchStatusMessage }}</p>
+
     <p class="error" *ngIf="errorText">{{ errorText }}</p>
   </section>
 
@@ -59,6 +74,14 @@
     <article class="panel card" *ngIf="clusterResponse as c">
       <h2>Docs In Response</h2>
       <strong>{{ c.documents.length }}</strong>
+    </article>
+    <article class="panel card" *ngIf="searchResponse as s">
+      <h2>Search Total Found</h2>
+      <strong>{{ s.totalDocumentsFound }}</strong>
+    </article>
+    <article class="panel card" *ngIf="searchResponse as s">
+      <h2>Search Returned</h2>
+      <strong>{{ s.returnedDocuments }}</strong>
     </article>
   </section>
 
@@ -114,6 +137,46 @@
         <tr *ngFor="let doc of matchedDocuments">
           <td>{{ doc.fileName || '(no file name)' }}</td>
           <td>{{ doc.id }}</td>
+          <td class="path">{{ doc.filePath }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h3>Search Results (Token + Cluster Aware)</h3>
+    <p *ngIf="!searchResponse">Run search to find documents by tokens and cluster labels.</p>
+    <p *ngIf="searchResponse && searchTokens.length">
+      Tokens used:
+      <strong>{{ searchTokens.join(', ') }}</strong>
+    </p>
+    <p *ngIf="searchResponse && searchBackendStages.length">
+      Backend stages:
+      <strong>{{ searchBackendStages.join(' -> ') }}</strong>
+    </p>
+    <table *ngIf="searchDocuments.length">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Score</th>
+          <th>Cluster Labels</th>
+          <th>Where Matched</th>
+          <th>Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doc of searchDocuments; trackBy: trackBySearchId">
+          <td>{{ doc.fileName || '(no file name)' }}</td>
+          <td>{{ doc.score.toFixed(3) }}</td>
+          <td>{{ doc.clusterLabels.length ? doc.clusterLabels.join(', ') : 'No cluster label' }}</td>
+          <td>
+            <p *ngIf="!doc.matchLocations.length">No snippet returned</p>
+            <div *ngFor="let match of doc.matchLocations; trackBy: trackByMatchIndex">
+              <strong>{{ match.field }}</strong>
+              <div class="match-snippet" [innerHTML]="match.snippet"></div>
+              <small>{{ tokenPositionLabel(match.tokenPosition) }}</small>
+            </div>
+          </td>
           <td class="path">{{ doc.filePath }}</td>
         </tr>
       </tbody>

@@ -166,6 +166,24 @@ td {
   font-weight: 700;
 }
 
+.match-snippet {
+  background: #f9f4ea;
+  border: 1px solid #ece1cf;
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin: 4px 0;
+}
+
+small {
+  color: #5f6673;
+}
+
+:host ::ng-deep em {
+  background: #fde68a;
+  font-style: normal;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;

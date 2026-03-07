@@ -6,7 +6,8 @@ import {
   ClusterResponse,
   FolderFilesResponse,
   FolderPathRequest,
-  IndexFolderResponse
+  IndexFolderResponse,
+  SearchResponse
 } from './models';
 
 @Injectable({ providedIn: 'root' })
@@ -32,6 +33,14 @@ export class ApiService {
     return this.http
       .get<ClusterResponse>(`${this.baseUrl}/clusters`, {
         params: { q: query || '*:*' }
+      })
+      .pipe(timeout(this.requestTimeoutMs));
+  }
+
+  searchDocuments(query: string, rows = 25): Observable<SearchResponse> {
+    return this.http
+      .get<SearchResponse>(`${this.baseUrl}/search`, {
+        params: { q: query || '*:*', rows }
       })
       .pipe(timeout(this.requestTimeoutMs));
   }

@@ -12,5 +12,8 @@ D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\Folder
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\FolderPathRequest.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\IndexedDocumentInfo.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\IndexFolderRequest.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\SearchDocumentResult.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\SearchMatchLocation.java
+D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\dto\SearchResponse.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\ClusteringService.java
 D:\projects\karan\doc\docCluster\src\main\java\com\example\doccluster\service\DocumentIndexService.java
